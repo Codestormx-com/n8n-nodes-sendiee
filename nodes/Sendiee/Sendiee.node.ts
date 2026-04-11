@@ -3,7 +3,6 @@ import {
   INodeExecutionData,
   INodeType,
   INodeTypeDescription,
-  NodeApiError,
   NodeOperationError,
   IDataObject,
 } from 'n8n-workflow';
