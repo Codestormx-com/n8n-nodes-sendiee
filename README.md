@@ -17,7 +17,7 @@ npm install n8n-nodes-sendiee
 
 ## Credentials
 
-1. Go to your [Sendiee Dashboard](https://app.sendiee.com) → **Settings → API Keys**
+1. Go to your [Sendiee Dashboard](https://www.sendiee.com/dashboard) → **Settings → API Keys**
 2. Copy your API key
 3. Copy your WhatsApp Business phone number (full international, no `+`)
 4. In n8n: **Credentials → New → Sendiee API** → paste both
