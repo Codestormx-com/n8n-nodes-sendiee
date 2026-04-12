@@ -22,6 +22,11 @@ import {
   scheduledMessageFields,
 } from './descriptions/ScheduledMessageDescription';
 
+import {
+  templateOperations,
+  templateFields,
+} from './descriptions/TemplateDescription';
+
 import { sendieeApiRequest } from './GenericFunctions';
 
 export class Sendiee implements INodeType {
@@ -73,6 +78,11 @@ export class Sendiee implements INodeType {
             value: 'scheduledMessage',
             description: 'View and cancel scheduled messages',
           },
+          {
+            name: 'Template',
+            value: 'template',
+            description: 'List WhatsApp message templates',
+          },
         ],
         default: 'message',
       },
@@ -81,11 +91,13 @@ export class Sendiee implements INodeType {
       ...messageOperations,
       ...contactOperations,
       ...scheduledMessageOperations,
+      ...templateOperations,
 
       // ── Fields per operation ───────────────────────────────────────
       ...messageFields,
       ...contactFields,
       ...scheduledMessageFields,
+      ...templateFields,
     ],
   };
 
@@ -153,6 +165,18 @@ export class Sendiee implements INodeType {
             throw new NodeOperationError(
               this.getNode(),
               `Unknown scheduledMessage operation: ${operation}`,
+            );
+          }
+        }
+
+        // ── TEMPLATE resource ─────────────────────────────────────────
+        else if (resource === 'template') {
+          if (operation === 'list') {
+            responseData = await handleTemplateList.call(this, i);
+          } else {
+            throw new NodeOperationError(
+              this.getNode(),
+              `Unknown template operation: ${operation}`,
             );
           }
         } else {
@@ -529,4 +553,26 @@ async function handleScheduledCancel(
     `/scheduled-messages/${scheduleId}`,
   );
   return response.data as IDataObject;
+}
+
+async function handleTemplateList(
+  this: IExecuteFunctions,
+  i: number,
+): Promise<IDataObject[]> {
+  const qs: IDataObject = {};
+
+  const status = this.getNodeParameter('statusFilter', i, '') as string;
+  if (status) qs.status = status;
+
+  const category = this.getNodeParameter('categoryFilter', i, '') as string;
+  if (category) qs.category = category;
+
+  const response = await sendieeApiRequest.call(
+    this,
+    'GET',
+    '/templates',
+    {},
+    qs,
+  );
+  return response.data as IDataObject[];
 }
