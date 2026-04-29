@@ -2,6 +2,7 @@ import {
   IExecuteFunctions,
   IHttpRequestMethods,
   IDataObject,
+  ILoadOptionsFunctions,
   JsonObject,
   NodeApiError,
 } from 'n8n-workflow';
@@ -9,9 +10,15 @@ import {
 /**
  * Central HTTP helper for all Sendiee API calls.
  * Handles auth injection, error mapping, and response unwrapping.
+ *
+ * The `this` is typed to accept both `IExecuteFunctions` (used by the
+ * regular execute() pipeline) and `ILoadOptionsFunctions` (used by
+ * dynamic dropdown loaders). Both expose `getCredentials`,
+ * `helpers.httpRequest`, and `getNode()`, so the body of this function
+ * doesn't need to change.
  */
 export async function sendieeApiRequest(
-  this: IExecuteFunctions,
+  this: IExecuteFunctions | ILoadOptionsFunctions,
   method: IHttpRequestMethods,
   endpoint: string,
   body: IDataObject = {},

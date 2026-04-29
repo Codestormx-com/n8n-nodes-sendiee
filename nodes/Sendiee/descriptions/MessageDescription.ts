@@ -87,12 +87,12 @@ export const messageFields: INodeProperties[] = [
   {
     displayName: 'Template Name',
     name: 'templateName',
-    type: 'string',
+    type: 'options',
     default: '',
     required: true,
-    placeholder: 'order_confirmation',
     description:
-      'The template name as configured in your Sendiee Template Manager. Must be in APPROVED status.',
+      'Pick from your APPROVED Sendiee templates — populated dynamically. If you don\'t see your template, ensure it\'s approved in the Template Manager.',
+    typeOptions: { loadOptionsMethod: 'getTemplates' },
     displayOptions: {
       show: {
         resource: ['message'],

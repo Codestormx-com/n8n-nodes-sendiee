@@ -1,7 +1,7 @@
 {
   "name": "n8n-nodes-sendiee",
-  "version": "0.2.0",
-  "description": "n8n community node for Sendiee — WhatsApp Business messaging via the Sendiee API",
+  "version": "0.3.0",
+  "description": "n8n community node for Sendiee — WhatsApp Business messaging, campaigns, AI assistants, and more via the Sendiee v2.0 API",
   "keywords": [
     "n8n-community-node-package",
     "n8n",
