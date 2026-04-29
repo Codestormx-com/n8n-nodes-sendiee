@@ -12,5 +12,6 @@ module.exports = {
     'n8n-nodes-base/node-dirname-against-convention': 'error',
     'n8n-nodes-base/node-filename-against-convention': 'error',
     'n8n-nodes-base/cred-class-field-display-name-missing-api': 'error',
+    '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
   },
 };
