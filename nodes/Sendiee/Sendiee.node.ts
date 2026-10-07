@@ -481,7 +481,7 @@ async function handleCustomFieldCreate(this: IExecuteFunctions, i: number): Prom
   };
   const fieldKey = this.getNodeParameter('fieldKey', i, '') as string;
   if (fieldKey) body.fieldKey = fieldKey;
-  if (body.fieldType === 'dropdown') {
+  if (body.fieldType === 'dropdown' || body.fieldType === 'multiselect') {
     body.options = this.getNodeParameter('options', i, []) as string[];
   }
   const response = await sendieeApiRequest.call(this, 'POST', '/contacts/custom_fields', body);
@@ -492,9 +492,12 @@ async function handleCustomFieldUpdate(this: IExecuteFunctions, i: number): Prom
   const fieldId = this.getNodeParameter('fieldId', i) as string;
   const body: IDataObject = {
     fieldName: this.getNodeParameter('fieldName', i) as string,
-    fieldType: this.getNodeParameter('fieldType', i) as string,
   };
-  if (body.fieldType === 'dropdown') {
+  // Only send fieldType when one was picked — "Keep Current Type" ('') must
+  // not reset the field to the default type.
+  const fieldType = this.getNodeParameter('fieldType', i, '') as string;
+  if (fieldType) body.fieldType = fieldType;
+  if (fieldType === 'dropdown' || fieldType === 'multiselect') {
     body.options = this.getNodeParameter('options', i, []) as string[];
   }
   const response = await sendieeApiRequest.call(this, 'PUT', `/contacts/custom_fields/${fieldId}`, body);

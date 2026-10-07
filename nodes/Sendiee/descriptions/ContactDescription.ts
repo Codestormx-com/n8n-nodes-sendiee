@@ -208,6 +208,7 @@ export const contactFields: INodeProperties[] = [
             name: 'value',
             type: 'string',
             default: '',
+            description: 'For a multi-select field, separate values with commas, pipes or semicolons (e.g. Tamil, English); it is stored as a list',
           },
         ],
       },
