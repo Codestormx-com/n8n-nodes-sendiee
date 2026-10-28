@@ -186,7 +186,7 @@ export const contactFields: INodeProperties[] = [
     default: { values: [] },
     typeOptions: { multipleValues: true },
     description:
-      'Add any custom key-value pairs to store on this contact (e.g. shopify_customer_id, order_count).',
+      'Add any custom key-value pairs to store on this contact (e.g. shopify_customer_id, order_count). File fields are read-only here and are skipped: files are uploaded on the lead in Sendiee.',
     placeholder: 'Add Custom Field',
     displayOptions: {
       show: { resource: ['contact'], operation: ['upsert'] },

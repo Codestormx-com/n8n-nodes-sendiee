@@ -484,6 +484,9 @@ async function handleCustomFieldCreate(this: IExecuteFunctions, i: number): Prom
   if (body.fieldType === 'dropdown' || body.fieldType === 'multiselect') {
     body.options = this.getNodeParameter('options', i, []) as string[];
   }
+  if (body.fieldType === 'file') {
+    body.allowMultiple = this.getNodeParameter('allowMultiple', i, false) as boolean;
+  }
   const response = await sendieeApiRequest.call(this, 'POST', '/contacts/custom_fields', body);
   return response.data as IDataObject;
 }
@@ -499,6 +502,11 @@ async function handleCustomFieldUpdate(this: IExecuteFunctions, i: number): Prom
   if (fieldType) body.fieldType = fieldType;
   if (fieldType === 'dropdown' || fieldType === 'multiselect') {
     body.options = this.getNodeParameter('options', i, []) as string[];
+  }
+  // File fields: only send allowMultiple when a setting was picked.
+  if (fieldType === '' || fieldType === 'file') {
+    const filesPerLead = this.getNodeParameter('allowMultipleUpdate', i, '') as string;
+    if (filesPerLead) body.allowMultiple = filesPerLead === 'multiple';
   }
   const response = await sendieeApiRequest.call(this, 'PUT', `/contacts/custom_fields/${fieldId}`, body);
   return response.data as IDataObject;
